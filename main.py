@@ -48,3 +48,21 @@ async def get_user(user_id: str):
             status_code=status.HTTP_404_NOT_FOUND
         )
 
+
+
+tasks={}
+@app.post("/api/v1/tasks/create/")
+async def register(title: str, descripcion: str, estado: str):
+    task_id = str(uuid.uuid4())
+    task = {
+        "titulo_tarea": title,
+        "descripcion": descripcion,
+        "estado": estado,
+        "task_id": task_id
+    }
+    tasks[task_id] = task
+    return{
+        "message": "Se creo la tarea con exito",
+        "task_id": task_id,
+        "status_code": status.HTTP_201_CREATED
+    }
