@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
+from fastapi.responses import JSONResponse
 import uuid
 
 app = FastAPI(
@@ -18,4 +19,32 @@ async def register(username: str, email: str, password: str):
         "status_code" : 201
     }
 
+
+@app.get("/api/v1/{user_id}/")
+async def get_user(user_id: str):
+    users = {
+        "hello-3344": {
+            "username": "mafer",
+            "email": "mafern@swagmail.com",
+            "password": "mafern123"
+        },
+        "id-76":{
+            "username": "sam",
+            "email": "sam@swagmail.com",
+            "password": "sam123"
+        }
+    }
+
+
+    if user_id in users:
+        user = users[user_id]
+        return JSONResponse(
+            content=user,
+            status_code=status.HTTP_200_OK
+        )
+    else:
+        return JSONResponse(
+            content="No existe el usuario",
+            status_code=status.HTTP_404_NOT_FOUND
+        )
 
