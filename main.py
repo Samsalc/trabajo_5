@@ -66,3 +66,30 @@ async def register(title: str, descripcion: str, estado: str):
         "task_id": task_id,
         "status_code": status.HTTP_201_CREATED
     }
+
+@app.get("/api/v1/tasks/{task_id}/")
+async def get_task(task_id: str):
+    tasks = {
+        "id-99": {
+            "titulo_tarea": "Tarea 5",
+            "descripcion": "Hacer un codigo con APIS",
+            "estado": "en progreso",
+        },
+        "id-09": {
+            "titulo_tarea": "Tarea 8000",
+            "descripcion": "Obtener el poder del anillo",
+            "estado": "en progreso",
+        }
+    }
+
+    if task_id in tasks:
+        task = tasks[task_id]
+        return JSONResponse(
+            content=task,
+            status_code=status.HTTP_200_OK
+        )
+    else:
+        return JSONResponse(
+            content="Error, tarea no encontrada",
+            status_code=status.HTTP_404_NOT_FOUND
+        )
